@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class CmdExecUtils {
+	
+	private CmdExecUtils() {}
 
 	/**
 	 * Returns the exit value of the subprocess represented by this Process object.

@@ -1,4 +1,4 @@
-package com.github.cheergoivan.fenkins.entity.settings;
+package com.github.cheergoivan.fenkins.entity.settings.project;
 
 public class Credential {
 	private String username;

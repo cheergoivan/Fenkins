@@ -13,6 +13,8 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class GitUtils {
+	
+	private GitUtils() {}
 
 	/**
 	 * Clone the specific repository into a given directory.

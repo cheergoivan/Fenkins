@@ -1,0 +1,16 @@
+server:
+  port: 9091
+spring:
+  profiles:
+    active:
+    - develop
+
+---
+
+spring:
+  profiles: product
+  
+---
+
+spring:
+  profiles: develop

@@ -1,11 +1,15 @@
 package com.github.cheergoivan.fenkins.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
 @ConfigurationProperties("fenkins")
-public class GlobalProperties {
+public class FenkinsProperties {
 	
 	private String settingsFile = "../conf/settings.yml";
+	
+	private String workspace = "/.fenkins";
 
 	public String getSettingsFile() {
 		return settingsFile;
@@ -13,5 +17,13 @@ public class GlobalProperties {
 
 	public void setSettingsFile(String settingsFile) {
 		this.settingsFile = settingsFile;
+	}
+
+	public String getWorkspace() {
+		return workspace;
+	}
+
+	public void setWorkspace(String workspace) {
+		this.workspace = workspace;
 	}
 }

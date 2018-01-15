@@ -23,7 +23,7 @@ public class EmailNotification {
 	}
 
 	public static enum Trigger {
-		ALWAYS, NEVER, ONLY_FAILURE
+		ALWAYS, NEVER, FAILURE
 	}
 
 	@Override

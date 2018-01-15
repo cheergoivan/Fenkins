@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.cheergoivan.fenkins.entity.settings.mail.MailProperties;
 import com.github.cheergoivan.fenkins.entity.settings.project.Project;
 
-public class GlobalSettings {
+public class Settings {
 	private List<Project> projects;
 	private MailProperties mail;
 

@@ -1,11 +1,20 @@
 package com.github.cheergoivan.fenkins.entity.settings.project;
 
 public class Project {
+	private String id;
 	private String name;
 	private Git git = new Git();
 	private Build build = new Build();
 	private Deploy deploy = new Deploy();
 	private EmailNotification notification = new EmailNotification();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;

@@ -1,49 +1,37 @@
 package com.github.cheergoivan.fenkins.configuration;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import java.io.File;
 
-@Component
-@ConfigurationProperties("fenkins")
+/**
+ * fenkins
+ * --bin
+ *   --fenkins.jar
+ * --conf 
+ *   --settings.yml
+ * --projects
+ *   --app1
+ *   --app2
+ * --logs
+ *   --app1
+ *   --app2
+ *   --fenkins.log
+ * startup.sh
+ * shutdown.sh
+ *   
+ */
 public class FenkinsProperties {
+	public static final File DIR_BIN = new File(System.getProperty("user.dir"));
 	
-	private String settingsFile = "../conf/settings.yml";
+	public static final File FENKINS_HOME = DIR_BIN.getParentFile();
 	
-	private String workspace = "/.fenkins/";
+	public static final File DIR_CONF = new File(FENKINS_HOME, "conf");
 	
-	private String storage = workspace + ".projects";
+	public static final File SETTINGS_FILE = new File(DIR_CONF, "settings.yml");
 	
-	private String log = workspace + "log/";
+	public static final File DIR_PROJECTS = new File(FENKINS_HOME, "projects");
+	
+	public static final File DIR_LOGS = new File(FENKINS_HOME, "logs");
+	
+	public static final File PROJECT_ID_STOREAGE = new File(System.getProperty("user.home")+"/.fenkins/.data");
 
-	public String getSettingsFile() {
-		return settingsFile;
-	}
-
-	public void setSettingsFile(String settingsFile) {
-		this.settingsFile = settingsFile;
-	}
-
-	public String getWorkspace() {
-		return workspace;
-	}
-
-	public void setWorkspace(String workspace) {
-		this.workspace = workspace;
-	}
-
-	public String getStorage() {
-		return storage;
-	}
-
-	public void setStorage(String storage) {
-		this.storage = storage;
-	}
-
-	public String getLog() {
-		return log;
-	}
-
-	public void setLog(String log) {
-		this.log = log;
-	}
 }

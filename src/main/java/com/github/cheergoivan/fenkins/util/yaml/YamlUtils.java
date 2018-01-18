@@ -8,8 +8,13 @@ public class YamlUtils {
 	private YamlUtils() {
 	}
 
-	public static <T> T load(InputStream in, Class<T> type) {
+	public static <T> T load(InputStream in, Class<T> type) throws YamlException{
 		Yaml yaml = new Yaml();
-		return yaml.loadAs(in, type);
+		try {
+			return yaml.loadAs(in, type);
+		}catch(Exception e) {
+			throw new YamlException("yaml load error!", e);
+		}
+		
 	}
 }

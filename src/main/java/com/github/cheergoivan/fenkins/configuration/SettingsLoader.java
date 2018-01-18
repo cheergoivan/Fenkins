@@ -5,9 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.github.cheergoivan.fenkins.entity.project.ProjectId;
+import com.github.cheergoivan.fenkins.configuration.exception.IllegalSettingsException;
+import com.github.cheergoivan.fenkins.configuration.exception.InitializationException;
 import com.github.cheergoivan.fenkins.entity.settings.Settings;
 import com.github.cheergoivan.fenkins.entity.settings.project.Project;
 import com.github.cheergoivan.fenkins.service.id.IdGenerationService;
+import com.github.cheergoivan.fenkins.util.file.FileUtils;
 import com.github.cheergoivan.fenkins.util.serialization.SerializationUtils;
+import com.github.cheergoivan.fenkins.util.yaml.YamlException;
 import com.github.cheergoivan.fenkins.util.yaml.YamlUtils;
 
 @Configuration
@@ -29,48 +31,73 @@ public class SettingsLoader {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsLoader.class);
 
 	@Autowired
-	private FenkinsProperties globalProperties;
-
-	@Autowired
 	private IdGenerationService idGenerationService;
 
 	@Bean
 	@Profile("develop")
 	public Settings loadSettings() {
-		Settings settings = YamlUtils.load(this.getClass().getResourceAsStream("/settings.yml"), Settings.class);
-		return settings;
+		File storage = initializeStorage();
+		return loadSettings(this.getClass().getResourceAsStream("/settings.yml"), storage);
 	}
 
 	@Bean
 	@Profile("product")
 	public Settings loadSettingsInProduct() {
-		String settingsFile = globalProperties.getSettingsFile();
+		File storage = initializeStorage();
 		try {
-			return YamlUtils.load(new FileInputStream(settingsFile), Settings.class);
+			return loadSettings(new FileInputStream(FenkinsProperties.SETTINGS_FILE), storage);
 		} catch (FileNotFoundException e) {
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
+			throw new InitializationException("Settings file doesn't exist!", e);
 		}
 	}
-	
-	@SuppressWarnings("unused")
+
+	private File initializeStorage() {
+		File storage = FenkinsProperties.PROJECT_ID_STOREAGE;
+		try {
+			FileUtils.createFile(storage);
+		} catch (IOException e) {
+			throw new InitializationException("Fail to create a storage file!", e);
+		}
+		return storage;
+	}
+
 	private Settings loadSettings(InputStream in, File storage) {
 		try {
-			List<ProjectId> ids = SerializationUtils.readAll(storage);
-			Map<String, String> projectIdMap = ids.stream().collect(Collectors.toMap(ProjectId::getProject, ProjectId::getId));
-			Settings settings = YamlUtils.load(in, Settings.class);
+			Settings settings = loadSettings(in);
+			validateSettings(settings);
+			Map<String, String> storedProjectIds = SerializationUtils.read(storage);
+			if(storedProjectIds == null)
+				storedProjectIds = new HashMap<>();
+			Map<String, String> presentProjectIds = new HashMap<>();
 			for (Project project : settings.getProjects()) {
-				if(!projectIdMap.containsKey(project.getName())) {
+				if (!storedProjectIds.containsKey(project.getName())) {
 					String id = idGenerationService.generateId();
-					projectIdMap.put(project.getName(), id);
-					SerializationUtils.write(new ProjectId(id, project.getName()), storage);
+					presentProjectIds.put(project.getName(), id);
+				} else {
+					presentProjectIds.put(project.getName(), storedProjectIds.get(project.getName()));
 				}
-				project.setId(projectIdMap.get(project.getName()));
+				project.setId(presentProjectIds.get(project.getName()));
 			}
+			SerializationUtils.write(presentProjectIds, storage, false);
 			return settings;
 		} catch (ClassNotFoundException | IOException e) {
-			LOGGER.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
+			LOGGER.error(e.getMessage(), e);
+			throw new IllegalSettingsException(e.getMessage());
+		}
+	}
+
+	private Settings loadSettings(InputStream in) {
+		try {
+			return YamlUtils.load(in, Settings.class);
+		} catch (YamlException e) {
+			throw new IllegalSettingsException("Illegal settings!", e);
+		}
+	}
+
+	private void validateSettings(Settings settings) {
+		long names = settings.getProjects().stream().map(Project::getName).count();
+		if (settings.getProjects().size() != names) {
+			throw new IllegalSettingsException("Project name must be unique!");
 		}
 	}
 }

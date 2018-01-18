@@ -14,10 +14,10 @@ public class SerializationUtils {
 	private SerializationUtils() {
 	}
 
-	public static <T> void write(T object, File file) throws IOException {
-		FileOutputStream fos = new FileOutputStream(file, true);
+	public static <T> void write(T object, File file, boolean append) throws IOException {
+		FileOutputStream fos = new FileOutputStream(file, append);
 		ObjectOutputStream oos = null;
-		if (!file.exists() || file.length() == 0)
+		if (!append || !file.exists() || file.length() == 0)
 			oos = new ObjectOutputStream(fos);
 		else
 			oos = new HeaderLessObjectOutputStream(fos);
@@ -26,14 +26,19 @@ public class SerializationUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T read(File file) throws IOException, ClassNotFoundException {
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-			return (T) ois.readObject();
+		if(file.length() != 0) {
+			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+				return (T) ois.readObject();
+			}
 		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> readAll(File file) throws IOException, ClassNotFoundException {
 		List<T> objects = new ArrayList<>();
+		if(file.length() == 0)
+			return objects;
 		try (FileInputStream in = new FileInputStream(file); 
 				ObjectInputStream ois = new ObjectInputStream(in)) {
 			while (in.available() > 0) {

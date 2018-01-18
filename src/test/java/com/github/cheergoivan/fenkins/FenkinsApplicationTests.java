@@ -29,15 +29,11 @@ public class FenkinsApplicationTests {
 		phase.execute();
 
 		File file = new File("projects");
-		System.out.println(file.getAbsolutePath());
-		
 		try {
-			SerializationUtils.write(new ProjectId("2", "project2"), 
-					file);
-		} catch (IOException e) {
-			e.printStackTrace();
+			file.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		
 		try {
 			List<ProjectId> projects = SerializationUtils.readAll(file);
 			System.out.println(projects.size());

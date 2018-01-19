@@ -70,13 +70,9 @@ public class SettingsLoader {
 				storedProjectIds = new HashMap<>();
 			Map<String, String> presentProjectIds = new HashMap<>();
 			for (Project project : settings.getProjects()) {
-				if (!storedProjectIds.containsKey(project.getName())) {
-					String id = idGenerationService.generateId();
-					presentProjectIds.put(project.getName(), id);
-				} else {
-					presentProjectIds.put(project.getName(), storedProjectIds.get(project.getName()));
-				}
-				project.setId(presentProjectIds.get(project.getName()));
+				String id = storedProjectIds.computeIfAbsent(project.getName(), name-> idGenerationService.generateId());
+				presentProjectIds.put(project.getName(), id);
+				project.setId(id);
 			}
 			SerializationUtils.write(presentProjectIds, storage, false);
 			return settings;

@@ -34,3 +34,4 @@ mail:
   username: cheergoivan@163.com
   password: qwertyuiop123
   port: 465
+concurrentJobs: 5

@@ -1,5 +1,6 @@
 package com.github.cheergoivan.fenkins.service.project;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Optional<Project> findById(String id) {
 		return settings.getProjects().stream().filter(p -> p.getId().equals(id)).findFirst();
+	}
+
+	@Override
+	public List<Project> listProjects() {
+		return settings.getProjects();
 	}
 
 }

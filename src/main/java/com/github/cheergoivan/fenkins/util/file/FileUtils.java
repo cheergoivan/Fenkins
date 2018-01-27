@@ -7,7 +7,7 @@ public class FileUtils {
 	private FileUtils() {
 	}
 
-	public static void createFile(File file) throws IOException {
+	public static void createFileIfNotExists(File file) throws IOException {
 		if (!file.exists()) {
 			File parent = file.getParentFile();
 			if (parent != null && !parent.exists()) {

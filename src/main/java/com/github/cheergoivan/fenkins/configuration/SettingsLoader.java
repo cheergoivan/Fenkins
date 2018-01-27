@@ -54,7 +54,7 @@ public class SettingsLoader {
 	private File initializeStorage() {
 		File storage = FenkinsProperties.PROJECT_ID_STOREAGE;
 		try {
-			FileUtils.createFile(storage);
+			FileUtils.createFileIfNotExists(storage);
 		} catch (IOException e) {
 			throw new InitializationException("Fail to create a storage file!", e);
 		}

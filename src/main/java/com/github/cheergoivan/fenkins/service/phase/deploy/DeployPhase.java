@@ -1,14 +1,19 @@
 package com.github.cheergoivan.fenkins.service.phase.deploy;
 
-import com.github.cheergoivan.fenkins.service.phase.Phase;
+import com.github.cheergoivan.fenkins.service.phase.AbstractPhase;
+import com.github.cheergoivan.fenkins.service.phase.Context;
 
-public class DeployPhase implements Phase{
+public class DeployPhase extends AbstractPhase{
+
+	public DeployPhase(Context context) {
+		super(context);
+	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		
 	}
+
 
 }
 

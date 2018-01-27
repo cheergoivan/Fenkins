@@ -26,17 +26,16 @@ public class GitUtils {
 	 * @throws IOException
 	 * @throws GitAPIException
 	 */
-	public static void clone(String directory, String remoteRepository, Credential credential, Writer out)
+	public static void clone(File directory, String remoteRepository, Credential credential, Writer out)
 			throws GitAPIException, IOException {
 		CloneCommand cloneCommand = Git.cloneRepository().setURI(remoteRepository);
 		out.write("Clone from " + remoteRepository + System.getProperty("line.separator"));
 		cloneCommand.setCredentialsProvider(
 				new UsernamePasswordCredentialsProvider(credential.getUsername(), credential.getPassword()));
 		cloneCommand.setProgressMonitor(new TextProgressMonitor(out));
-		File localRepository = new File(directory);
-		if (!localRepository.exists() || !localRepository.isDirectory())
+		if (!directory.exists() || !directory.isDirectory())
 			throw new FileNotFoundException("Direcory " + directory + " doesn't exist!");
-		cloneCommand.setDirectory(localRepository).call();
+		cloneCommand.setDirectory(directory).call();
 	}
 
 	/**

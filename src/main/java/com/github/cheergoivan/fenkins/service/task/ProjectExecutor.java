@@ -5,9 +5,6 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class ProjectExecutor {
 	/**
 	 * key: projectId

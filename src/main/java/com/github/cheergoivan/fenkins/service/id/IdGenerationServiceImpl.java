@@ -9,7 +9,7 @@ public class IdGenerationServiceImpl implements IdGenerationService{
 
 	@Override
 	public String generateId() {
-		return UUID.randomUUID().toString();
+		return UUID.randomUUID().toString().replace("-", "");
 	}
 
 }

@@ -32,6 +32,6 @@ public class FenkinsProperties {
 	
 	public static final File DIR_LOGS = new File(FENKINS_HOME, "logs");
 	
-	public static final File PROJECT_ID_STOREAGE = new File(System.getProperty("user.home")+"/.fenkins/.data");
+	public static final File PROJECT_ID_STOREAGE = new File(FENKINS_HOME+"/.fenkins");
 
 }

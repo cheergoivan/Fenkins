@@ -16,4 +16,10 @@ public class FileUtils {
 			System.out.println(file.createNewFile());
 		}
 	}
+
+	public static void createDirectoryIfNotExists(File dir) throws IOException {
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+	}
 }

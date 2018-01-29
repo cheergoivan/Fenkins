@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.context.annotation.Profile;
 
 import com.github.cheergoivan.fenkins.configuration.exception.IllegalSettingsException;
@@ -26,12 +27,16 @@ import com.github.cheergoivan.fenkins.util.yaml.YamlException;
 import com.github.cheergoivan.fenkins.util.yaml.YamlUtils;
 
 @Configuration
+@Order(50)
 public class SettingsLoader {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsLoader.class);
 
 	@Autowired
 	private IdGenerationService idGenerationService;
+	
+	@Autowired
+	private FenkinsStructure fenkinsStructure;
 
 	@Bean
 	@Profile("develop")
@@ -45,14 +50,14 @@ public class SettingsLoader {
 	public Settings loadSettingsInProduct() {
 		File storage = initializeStorage();
 		try {
-			return loadSettings(new FileInputStream(FenkinsProperties.SETTINGS_FILE), storage);
+			return loadSettings(new FileInputStream(fenkinsStructure.getFileSettings()), storage);
 		} catch (FileNotFoundException e) {
 			throw new InitializationException("Settings file doesn't exist!", e);
 		}
 	}
 
 	private File initializeStorage() {
-		File storage = FenkinsProperties.PROJECT_ID_STOREAGE;
+		File storage = fenkinsStructure.getFileProjectIdStorage();
 		try {
 			FileUtils.createFileIfNotExists(storage);
 		} catch (IOException e) {

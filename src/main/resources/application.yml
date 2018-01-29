@@ -16,3 +16,7 @@ spring:
 
 spring:
   profiles: develop
+fenkins:
+  home: release
+logging:
+  file: ${fenkins.home}/logs/fenkins.log

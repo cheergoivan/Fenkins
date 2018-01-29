@@ -1,6 +1,8 @@
 target/
 /mvnw*
 /.mvn/
+/release/logs
+/release/projects
 
 ### STS ###
 .apt_generated

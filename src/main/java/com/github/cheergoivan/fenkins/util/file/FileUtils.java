@@ -13,7 +13,6 @@ public class FileUtils {
 			if (parent != null && !parent.exists()) {
 				parent.mkdirs();
 			}
-			System.out.println(file.createNewFile());
 		}
 	}
 
@@ -21,5 +20,9 @@ public class FileUtils {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+	}
+
+	public static boolean isDirectoryEmpty(File directory) {
+		return directory.isDirectory() && directory.list().length == 0;
 	}
 }

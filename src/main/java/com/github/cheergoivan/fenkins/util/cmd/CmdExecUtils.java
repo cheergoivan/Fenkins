@@ -8,14 +8,19 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+
+import com.github.cheergoivan.fenkins.util.system.SystemUtils;
+
 public class CmdExecUtils {
-	
-	private CmdExecUtils() {}
+
+	private CmdExecUtils() {
+	}
 
 	/**
-	 * Returns the exit value of the subprocess represented by this Process object.
-	 * If the specified waiting time elapses and the subprocess doesn't end then
-	 * return -1.
+	 * Returns the exit value of the subprocess represented by this Process
+	 * object. If the specified waiting time elapses and the subprocess doesn't
+	 * end then return -1.
 	 * 
 	 * @param directory
 	 * @param environment
@@ -51,10 +56,17 @@ public class CmdExecUtils {
 
 	private static int executeCommandWithTimeout(File directory, Map<String, String> environment, String command,
 			Duration timeout, Consumer<InputStream> inputStreamConsumer) throws IOException, InterruptedException {
-		ProcessBuilder pb = new ProcessBuilder("sh", "-c", command);
+		ProcessBuilder pb = null;
+		switch (SystemUtils.detectOS()) {
+		case WINDOWS:
+			pb = new ProcessBuilder("cmd.exe", "/c", command);
+		case LINUX:
+			pb = new ProcessBuilder("/bin/sh", "-c", command);
+		}
 		pb.directory(directory);
+		Map<String, String> pbEnv = pb.environment();
 		Optional.ofNullable(environment).ifPresent(en -> {
-			en.forEach((k, v) -> pb.environment().put(k, v));
+			en.forEach((k, v) -> pbEnv.put(k, v));
 		});
 		pb.redirectErrorStream(true);
 		Process p = pb.start();

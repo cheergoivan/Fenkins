@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 import com.github.cheergoivan.fenkins.entity.settings.project.Project;
@@ -38,7 +36,7 @@ public class FetchPhase extends AbstractPhase {
 				GitUtils.pull(workspace, new Credential(project.getGit().getCredential().getUsername(),
 						project.getGit().getCredential().getPassword()), pw);
 			}
-			Files.write(context.getLog(), Arrays.asList(new String(fetchLog.toByteArray())), StandardOpenOption.APPEND);
+			log(Arrays.asList(new String(fetchLog.toByteArray())));
 		} catch (Exception e) {
 			throwPhaseExecutionFailureException("Failed executing fetch phase!", e);
 		}

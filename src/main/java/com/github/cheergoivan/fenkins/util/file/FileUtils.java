@@ -13,6 +13,7 @@ public class FileUtils {
 			if (parent != null && !parent.exists()) {
 				parent.mkdirs();
 			}
+			file.createNewFile();
 		}
 	}
 

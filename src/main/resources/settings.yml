@@ -1,12 +1,12 @@
 projects:
   - name: test1
     git:
-      url: https://gitee.com/cheegoivan/FeastBooking
+      url: https://github.com/cheergoivan/Fenkins-back
       credential:
-        username: test
-        password: test
+        username: cheergoivan@gmail.com
+        password: 
     build:
-      command: mvn clean package
+      command: mvn clean1 package
       timeout: 10000
     deploy:
       command: test

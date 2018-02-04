@@ -2,8 +2,11 @@ package com.github.cheergoivan.fenkins.entity.settings.project;
 
 import java.util.Arrays;
 
+import javax.validation.constraints.NotNull;
+
 public class EmailNotification {
-	private Trigger trigger;
+	private Trigger trigger = Trigger.FAILURE;
+	@NotNull(message = "Email addresses mustn't be null!")
 	private String[] emails;
 
 	public Trigger getTrigger() {

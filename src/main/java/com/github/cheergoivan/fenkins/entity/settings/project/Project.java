@@ -1,12 +1,20 @@
 package com.github.cheergoivan.fenkins.entity.settings.project;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public class Project {
 	private String id;
+	@NotNull(message = "Project name mustn't be null!")
 	private String name;
-	private Git git = new Git();
-	private Build build = new Build();
-	private Deploy deploy = new Deploy();
-	private EmailNotification notification = new EmailNotification();
+	@Valid
+	private Git git;
+	@Valid
+	private Build build;
+	@Valid
+	private Deploy deploy;
+	@Valid
+	private EmailNotification notification;
 
 	public String getId() {
 		return id;

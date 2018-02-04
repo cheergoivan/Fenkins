@@ -4,7 +4,7 @@ projects:
       url: https://github.com/cheergoivan/totp-authenticator
       credential:
         username: cheergoivan@gmail.com
-        password: asdfghjkl456
+        password: 
     build:
       command: mvn clean package
       timeout: 10000
@@ -16,19 +16,15 @@ projects:
       emails: [email1]
   - name: test2
     git:
-      url: https://gitee.com/cheegoivan/FeastBooking
+      url: https://github.com/cheergoivan/Fenkins-back
       credential:
         username: test
         password: test
     build:
-      command: test
-      timeout: 10000
-    deploy:
-      command: test
+      command: test1
       timeout: 10000
     notification:
-      trigger: ALWAYS
-      emails: [email1, email2]
+      emails: []
 mail:
   host: smtp.163.com
   username: cheergoivan@163.com

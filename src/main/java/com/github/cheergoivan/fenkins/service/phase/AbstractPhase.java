@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,16 @@ public abstract class AbstractPhase implements Phase {
 
 	public AbstractPhase(Context context) {
 		this.context = context;
+	}
+	
+	public abstract boolean preExecute();
+	
+	public abstract void internalExecute();
+	
+	public void execute() {
+		if(preExecute()) {
+			internalExecute();
+		}
 	}
 
 	public void throwPhaseExecutionFailureException(String message, Exception cause) {
@@ -42,6 +53,10 @@ public abstract class AbstractPhase implements Phase {
 			LOGGER.error("Fail to write log!", e);
 			throw new PhaseExecutionFailureException("Fail to write log!", e);
 		}
+	}
+	
+	public void log(String message) {
+		log(Arrays.asList(message));
 	}
 
 	public Context getContext() {

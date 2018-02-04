@@ -1,6 +1,9 @@
 package com.github.cheergoivan.fenkins.entity.settings.project;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Build {
+	@NotBlank(message = "Build command mustn't be null!")
 	private String command;
 	private long timeout = -1;
 

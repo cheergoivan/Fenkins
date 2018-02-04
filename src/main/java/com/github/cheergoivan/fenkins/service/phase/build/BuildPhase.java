@@ -10,18 +10,18 @@ public class BuildPhase extends CmdExecPhase {
 	}
 
 	@Override
-	public void execute() {
-		super.execute();
-	}
-
-	@Override
 	public String getCommand() {
 		return context.getProject().getBuild().getCommand();
 	}
 
 	@Override
 	public String getErrorMsg() {
-		return "BUILD FAILURE! For more information, please check this log: "
-				+ context.getLog().toFile().getName();
+		return "BUILD FAILURE! For more information, please check this log: " + context.getLog().toFile().getName();
 	}
+
+	@Override
+	public boolean preExecute() {
+		return context.getProject().getBuild() != null;
+	}
+
 }

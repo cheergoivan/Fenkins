@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ import com.github.cheergoivan.fenkins.entity.settings.project.Project;
 import com.github.cheergoivan.fenkins.service.id.IdGenerationService;
 import com.github.cheergoivan.fenkins.util.file.FileUtils;
 import com.github.cheergoivan.fenkins.util.serialization.SerializationUtils;
+import com.github.cheergoivan.fenkins.util.validation.ValidationResult;
+import com.github.cheergoivan.fenkins.util.validation.ValidationUtils;
 import com.github.cheergoivan.fenkins.util.yaml.YamlException;
 import com.github.cheergoivan.fenkins.util.yaml.YamlUtils;
 
@@ -33,7 +37,7 @@ public class SettingsLoader {
 
 	@Autowired
 	private IdGenerationService idGenerationService;
-	
+
 	@Autowired
 	private FenkinsStructure fenkinsStructure;
 
@@ -62,11 +66,12 @@ public class SettingsLoader {
 			Settings settings = loadSettings(in);
 			validateSettings(settings);
 			Map<String, String> storedProjectIds = SerializationUtils.read(storage);
-			if(storedProjectIds == null)
+			if (storedProjectIds == null)
 				storedProjectIds = new HashMap<>();
 			Map<String, String> presentProjectIds = new HashMap<>();
 			for (Project project : settings.getProjects()) {
-				String id = storedProjectIds.computeIfAbsent(project.getName(), name-> idGenerationService.generateId());
+				String id = storedProjectIds.computeIfAbsent(project.getName(),
+						name -> idGenerationService.generateId());
 				presentProjectIds.put(project.getName(), id);
 				project.setId(id);
 			}
@@ -87,9 +92,19 @@ public class SettingsLoader {
 	}
 
 	private void validateSettings(Settings settings) {
-		long names = settings.getProjects().stream().map(Project::getName).count();
-		if (settings.getProjects().size() != names) {
+		Set<String> projects = new HashSet<>();
+		for (Project p : settings.getProjects()) {
+			projects.add(p.getName());
+			ValidationResult result = ValidationUtils.validate(p);
+			if (result.isHasErrors()) {
+				for (String error : result.getErrorMsg().values()) {
+					throw new IllegalSettingsException(error);
+				}
+			}
+		}
+		if (settings.getProjects().size() != projects.size()) {
 			throw new IllegalSettingsException("Project name must be unique!");
 		}
 	}
+
 }

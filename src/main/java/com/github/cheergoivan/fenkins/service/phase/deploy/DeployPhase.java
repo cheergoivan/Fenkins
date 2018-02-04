@@ -10,19 +10,18 @@ public class DeployPhase extends CmdExecPhase {
 	}
 
 	@Override
-	public void execute() {
-		super.execute();
-	}
-
-	@Override
 	public String getCommand() {
 		return context.getProject().getDeploy().getCommand();
 	}
 
 	@Override
 	public String getErrorMsg() {
-		return "DEPLOY FAILURE! For more information, please check this log: "
-				+ context.getLog().toFile().getName();
+		return "DEPLOY FAILURE! For more information, please check this log: " + context.getLog().toFile().getName();
+	}
+
+	@Override
+	public boolean preExecute() {
+		return context.getProject().getDeploy() != null;
 	}
 
 }

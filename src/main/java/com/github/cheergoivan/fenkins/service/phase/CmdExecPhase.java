@@ -17,7 +17,7 @@ public abstract class CmdExecPhase extends AbstractPhase{
 	}
 
 	@Override
-	public void execute() {
+	public void internalExecute() {
 		List<String> output = new LinkedList<>();
 		Map<String, String> environment = new HashMap<>();
 		String workspace = context.getWorkspace().toString();

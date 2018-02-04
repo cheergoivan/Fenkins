@@ -20,7 +20,12 @@ public class FetchPhase extends AbstractPhase {
 	}
 
 	@Override
-	public void execute() {
+	public boolean preExecute() {
+		return context.getProject().getGit() != null;
+	}
+
+	@Override
+	public void internalExecute() {
 		ByteArrayOutputStream fetchLog = new ByteArrayOutputStream();
 		PrintWriter pw = new PrintWriter(new OutputStreamWriter(fetchLog));
 		Project project = context.getProject();

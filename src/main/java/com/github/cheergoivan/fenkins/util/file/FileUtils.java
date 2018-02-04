@@ -17,10 +17,11 @@ public class FileUtils {
 		}
 	}
 
-	public static void createDirectoryIfNotExists(File dir) throws IOException {
+	public static boolean createDirectoryIfNotExists(File dir) throws IOException {
 		if (!dir.exists()) {
-			dir.mkdirs();
+			return dir.mkdirs();
 		}
+		return false;
 	}
 
 	public static boolean isDirectoryEmpty(File directory) {

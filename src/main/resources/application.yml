@@ -4,8 +4,6 @@ spring:
   profiles:
     active:
     - develop
-logging:
-  file: ../logs/fenkins.log
   
 ---
 

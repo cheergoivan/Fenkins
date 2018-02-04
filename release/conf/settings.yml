@@ -1,15 +1,15 @@
 projects:
-  - name: test1
+  - name: totp
     git:
-      url: https://gitee.com/cheegoivan/FeastBooking
+      url: https://github.com/cheergoivan/totp-authenticator
       credential:
-        username: test
-        password: test
+        username: cheergoivan@gmail.com
+        password: asdfghjkl456
     build:
       command: mvn clean package
       timeout: 10000
     deploy:
-      command: test
+      command: hhh
       timeout: 10000
     notification:
       trigger: ALWAYS

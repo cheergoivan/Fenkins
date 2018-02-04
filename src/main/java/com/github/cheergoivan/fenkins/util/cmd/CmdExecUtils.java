@@ -8,8 +8,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-
 import com.github.cheergoivan.fenkins.util.system.SystemUtils;
 
 public class CmdExecUtils {

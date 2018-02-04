@@ -32,11 +32,6 @@ public abstract class AbstractPhase implements Phase {
 	public void throwPhaseExecutionFailureException(String message) {
 		LOGGER.error(message);
 		PhaseExecutionFailureException ex = new PhaseExecutionFailureException(message);
-		try {
-			ex.printStackTrace(new PrintWriter(new FileOutputStream(context.getLog().toFile(), true), true));
-		} catch (FileNotFoundException e1) {
-			LOGGER.error("File " + context.getLog() + " doesn't exist!", e1);
-		}
 		throw ex;
 	}
 
@@ -47,5 +42,9 @@ public abstract class AbstractPhase implements Phase {
 			LOGGER.error("Fail to write log!", e);
 			throw new PhaseExecutionFailureException("Fail to write log!", e);
 		}
+	}
+
+	public Context getContext() {
+		return context;
 	}
 }

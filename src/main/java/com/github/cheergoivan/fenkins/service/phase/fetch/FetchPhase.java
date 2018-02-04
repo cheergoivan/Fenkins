@@ -26,12 +26,11 @@ public class FetchPhase extends AbstractPhase {
 		Project project = context.getProject();
 		File workspace = context.getWorkspace().toFile();
 		try {
-			if (!workspace.exists() || FileUtils.isDirectoryEmpty(workspace)) {
-				FileUtils.createDirectoryIfNotExists(workspace);
+			if (FileUtils.createDirectoryIfNotExists(workspace) 
+					|| FileUtils.isDirectoryEmpty(workspace)) {
 				GitUtils.clone(workspace, project.getGit().getUrl(),
 						new Credential(project.getGit().getCredential().getUsername(),
-								project.getGit().getCredential().getPassword()),
-						pw);
+								project.getGit().getCredential().getPassword()), pw);
 			} else {
 				GitUtils.pull(workspace, new Credential(project.getGit().getCredential().getUsername(),
 						project.getGit().getCredential().getPassword()), pw);

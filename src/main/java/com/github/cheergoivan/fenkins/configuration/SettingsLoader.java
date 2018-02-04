@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.context.annotation.Profile;
 
 import com.github.cheergoivan.fenkins.configuration.exception.IllegalSettingsException;
 import com.github.cheergoivan.fenkins.configuration.exception.InitializationException;
@@ -39,14 +38,6 @@ public class SettingsLoader {
 	private FenkinsStructure fenkinsStructure;
 
 	@Bean
-	@Profile("develop")
-	public Settings loadSettings() {
-		File storage = initializeStorage();
-		return loadSettings(this.getClass().getResourceAsStream("/settings.yml"), storage);
-	}
-
-	@Bean
-	@Profile("product")
 	public Settings loadSettingsInProduct() {
 		File storage = initializeStorage();
 		try {

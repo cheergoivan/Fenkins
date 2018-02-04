@@ -42,8 +42,7 @@ public abstract class AbstractPhase implements Phase {
 	
 	public void throwPhaseExecutionFailureException(String message) {
 		LOGGER.error(message);
-		PhaseExecutionFailureException ex = new PhaseExecutionFailureException(message);
-		throw ex;
+		throw new PhaseExecutionFailureException(message);
 	}
 
 	public void log(Iterable<String> log) {

@@ -8,14 +8,14 @@ import java.util.Arrays;
 
 import com.github.cheergoivan.fenkins.entity.settings.project.Project;
 import com.github.cheergoivan.fenkins.service.phase.AbstractPhase;
-import com.github.cheergoivan.fenkins.service.phase.Context;
+import com.github.cheergoivan.fenkins.service.phase.PhaseExecutionContext;
 import com.github.cheergoivan.fenkins.util.file.FileUtils;
 import com.github.cheergoivan.fenkins.util.git.Credential;
 import com.github.cheergoivan.fenkins.util.git.GitUtils;
 
 public class FetchPhase extends AbstractPhase {
 
-	public FetchPhase(Context context) {
+	public FetchPhase(PhaseExecutionContext context) {
 		super(context);
 	}
 
@@ -42,7 +42,7 @@ public class FetchPhase extends AbstractPhase {
 			}
 			log(Arrays.asList(new String(fetchLog.toByteArray())));
 		} catch (Exception e) {
-			throwPhaseExecutionFailureException("Failed executing fetch phase!", e);
+			throwPhaseExecutionException("Failed executing fetch phase!", e);
 		}
 	}
 

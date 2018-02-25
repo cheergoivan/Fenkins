@@ -4,12 +4,12 @@ import java.nio.file.Path;
 
 import com.github.cheergoivan.fenkins.entity.settings.project.Project;
 
-public class Context {
+public class PhaseExecutionContext {
 	private Path workspace;
 	private Project project;
 	private Path log;
 	
-	public Context(Path workspace, Project project, Path log) {
+	public PhaseExecutionContext(Path workspace, Project project, Path log) {
 		super();
 		this.workspace = workspace;
 		this.project = project;

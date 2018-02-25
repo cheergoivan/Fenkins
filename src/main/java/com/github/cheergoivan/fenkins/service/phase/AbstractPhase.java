@@ -12,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractPhase implements Phase {
-	protected Context context;
+	protected PhaseExecutionContext context;
 	protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-	public AbstractPhase(Context context) {
+	public AbstractPhase(PhaseExecutionContext context) {
 		this.context = context;
 	}
 	
@@ -29,9 +29,9 @@ public abstract class AbstractPhase implements Phase {
 		}
 	}
 
-	public void throwPhaseExecutionFailureException(String message, Exception cause) {
+	public void throwPhaseExecutionException(String message, Exception cause) {
 		LOGGER.error(message, cause);
-		PhaseExecutionFailureException ex = new PhaseExecutionFailureException(message, cause);
+		PhaseExecutionException ex = new PhaseExecutionException(message, cause);
 		try {
 			ex.printStackTrace(new PrintWriter(new FileOutputStream(context.getLog().toFile(), true), true));
 		} catch (FileNotFoundException e1) {
@@ -40,9 +40,9 @@ public abstract class AbstractPhase implements Phase {
 		throw ex;
 	}
 	
-	public void throwPhaseExecutionFailureException(String message) {
+	public void throwPhaseExecutionException(String message) {
 		LOGGER.error(message);
-		throw new PhaseExecutionFailureException(message);
+		throw new PhaseExecutionException(message);
 	}
 
 	public void log(Iterable<String> log) {
@@ -50,7 +50,7 @@ public abstract class AbstractPhase implements Phase {
 			Files.write(context.getLog(), log, StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			LOGGER.error("Fail to write log!", e);
-			throw new PhaseExecutionFailureException("Fail to write log!", e);
+			throw new PhaseExecutionException("Fail to write log!", e);
 		}
 	}
 	
@@ -58,7 +58,7 @@ public abstract class AbstractPhase implements Phase {
 		log(Arrays.asList(message));
 	}
 
-	public Context getContext() {
+	public PhaseExecutionContext getContext() {
 		return context;
 	}
 }

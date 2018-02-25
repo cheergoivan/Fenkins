@@ -1,10 +1,15 @@
 package com.github.cheergoivan.fenkins.entity.settings.mail;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MailProperties {
 	private String host;
-	private String port;
+	private int port;
 	private String username;
 	private String password;
+	private String protocol = "smtp";
+	private Map<String, String> properties = new HashMap<>();
 	
 	public String getHost() {
 		return host;
@@ -12,10 +17,10 @@ public class MailProperties {
 	public void setHost(String host) {
 		this.host = host;
 	}
-	public String getPort() {
+	public int getPort() {
 		return port;
 	}
-	public void setPort(String port) {
+	public void setPort(int port) {
 		this.port = port;
 	}
 	public String getUsername() {
@@ -29,5 +34,17 @@ public class MailProperties {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getProtocol() {
+		return protocol;
+	}
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
 	}
 }

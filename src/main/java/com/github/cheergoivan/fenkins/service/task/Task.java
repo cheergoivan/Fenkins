@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.cheergoivan.fenkins.configuration.FenkinsStructure;
 import com.github.cheergoivan.fenkins.entity.settings.project.Project;
-import com.github.cheergoivan.fenkins.service.phase.Context;
+import com.github.cheergoivan.fenkins.service.phase.PhaseExecutionContext;
 import com.github.cheergoivan.fenkins.service.phase.Phase;
 import com.github.cheergoivan.fenkins.service.phase.build.BuildPhase;
 import com.github.cheergoivan.fenkins.service.phase.deploy.DeployPhase;
@@ -33,7 +33,7 @@ public class Task implements Runnable {
 
 	@Override
 	public void run() {
-		Context context = new Context(prepareWorkspace(), project, prepareLog());
+		PhaseExecutionContext context = new PhaseExecutionContext(prepareWorkspace(), project, prepareLog());
 		Phase phase = new FetchPhase(context).next(new BuildPhase(context)).next(new DeployPhase(context));
 		phase.execute();
 	}

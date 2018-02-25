@@ -10,9 +10,9 @@ import java.util.Map;
 import com.github.cheergoivan.fenkins.util.cmd.CmdExecUtils;
 import com.github.cheergoivan.fenkins.util.cmd.InputStreamToLinesConsumer;
 
-public abstract class CmdExecPhase extends AbstractPhase{
+public abstract class CmdExecutionPhase extends AbstractPhase{
 	
-	public CmdExecPhase(Context context) {
+	public CmdExecutionPhase(PhaseExecutionContext context) {
 		super(context);
 	}
 
@@ -27,9 +27,9 @@ public abstract class CmdExecPhase extends AbstractPhase{
 					getCommand(), new InputStreamToLinesConsumer(output::add));
 			log(output);
 			if (exit != 0)
-				throwPhaseExecutionFailureException(getErrorMsg());
+				throwPhaseExecutionException(getErrorMsg());
 		} catch (IOException | InterruptedException e) {
-			throwPhaseExecutionFailureException(getErrorMsg(), e);
+			throwPhaseExecutionException(getErrorMsg(), e);
 		}
 	}
 	

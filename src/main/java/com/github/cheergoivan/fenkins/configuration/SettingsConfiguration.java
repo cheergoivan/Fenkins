@@ -13,9 +13,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 import com.github.cheergoivan.fenkins.configuration.exception.IllegalSettingsException;
 import com.github.cheergoivan.fenkins.configuration.exception.InitializationException;
@@ -30,10 +30,10 @@ import com.github.cheergoivan.fenkins.util.yaml.YamlException;
 import com.github.cheergoivan.fenkins.util.yaml.YamlUtils;
 
 @Configuration
-@Order(50)
-public class SettingsLoader {
+@AutoConfigureAfter(FenkinsStructureConfiguration.class)
+public class SettingsConfiguration {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsLoader.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SettingsConfiguration.class);
 
 	@Autowired
 	private IdGenerationService idGenerationService;

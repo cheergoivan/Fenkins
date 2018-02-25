@@ -1,11 +1,11 @@
 package com.github.cheergoivan.fenkins.service.phase.build;
 
-import com.github.cheergoivan.fenkins.service.phase.CmdExecPhase;
-import com.github.cheergoivan.fenkins.service.phase.Context;
+import com.github.cheergoivan.fenkins.service.phase.CmdExecutionPhase;
+import com.github.cheergoivan.fenkins.service.phase.PhaseExecutionContext;
 
-public class BuildPhase extends CmdExecPhase {
+public class BuildPhase extends CmdExecutionPhase {
 
-	public BuildPhase(Context context) {
+	public BuildPhase(PhaseExecutionContext context) {
 		super(context);
 	}
 

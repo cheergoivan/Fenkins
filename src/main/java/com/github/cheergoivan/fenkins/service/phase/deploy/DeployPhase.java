@@ -1,11 +1,11 @@
 package com.github.cheergoivan.fenkins.service.phase.deploy;
 
-import com.github.cheergoivan.fenkins.service.phase.CmdExecPhase;
-import com.github.cheergoivan.fenkins.service.phase.Context;
+import com.github.cheergoivan.fenkins.service.phase.CmdExecutionPhase;
+import com.github.cheergoivan.fenkins.service.phase.PhaseExecutionContext;
 
-public class DeployPhase extends CmdExecPhase {
+public class DeployPhase extends CmdExecutionPhase {
 
-	public DeployPhase(Context context) {
+	public DeployPhase(PhaseExecutionContext context) {
 		super(context);
 	}
 
